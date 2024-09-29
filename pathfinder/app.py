@@ -7,11 +7,11 @@ import astar
 
 app = Flask(__name__)
 
-CORS(app, origins='*', methods=["GET"], resources={
+CORS(app, origins='*', methods=["GET", "POST"], resources={
      r"/*": {"origins": "*", "allow_headers": "*", "expose_headers": "*"}})
 
 
-@app.route("/api", methods=["GET"])
+@app.route("/api", methods=["POST"])
 def pathFinder():
     data = request.get_json()
     generateData()
