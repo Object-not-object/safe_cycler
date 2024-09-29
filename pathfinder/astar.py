@@ -70,7 +70,7 @@ def astar(graph, startId, startCoords, endId, endCoords, nodes):
             openList.append(child)
 
 
-def main():
+def main(startId=12026767495, endId=30372083):
     with open("data.json") as file:
         ways = json.load(file)
 
@@ -89,7 +89,7 @@ def main():
                 way["tags"]["surface"],
                 way["tags"]["lanes"]
             )
-            
+
             distBetweenNodes *= weight
 
             if node1['id'] in graph.keys():
@@ -102,13 +102,15 @@ def main():
             else:
                 graph[node2['id']] = [(node1['id'], distBetweenNodes)]
 
-    path = astar(graph, 12026767495,
-                 nodes[12026767495], 30372083, nodes[30372083], nodes)
+    path = astar(graph, startId,
+                 nodes[startId], endId, nodes[endId], nodes)
     pathCoords = [nodes[node] for node in path]
     print(pathCoords)
     createGpx(pathCoords)
     with open('path_coords.json', 'w') as f:
         json.dump(pathCoords, f)
+
+    return pathCoords
 
 
 if __name__ == '__main__':
