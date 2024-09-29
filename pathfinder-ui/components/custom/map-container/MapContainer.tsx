@@ -16,14 +16,17 @@ import Search from '../search/Search'
 import Image from 'next/image'
 
 const customIcon = new Icon({
-    iconUrl: 'icons/current_location_marker.png',
-    iconSize: [36, 36],
+    iconUrl: 'icons/indicator.png',
+    iconSize: [26, 26],
 })
 
 const startEndIcon = new Icon({
     iconUrl: 'icons/map-marker-icon.png',
     iconSize: [36, 36],
 })
+
+const NAVBAR_ICON_W = 28
+const NAVBAR_ICON_H = 28
 
 // const MAP_CENTER: LatLngExpression = [50.06438993609793, 19.925162065678766]
 const MAP_CENTER: LatLngExpression = [50.062106, 19.9515026]
@@ -113,8 +116,7 @@ const MapComponent = () => {
     }
 
     const RoadPolyline = useCallback(() => {
-        console.log(path)
-        return <Polyline positions={path} color='red' />
+        return <Polyline positions={path} color='#EB096D' />
     }, [path])
 
     return (
@@ -141,6 +143,7 @@ const MapComponent = () => {
                 <ResetMapCenter />
             </MapContainer>
             <div className={styles['search-panel']}>
+                <div className={styles['search-panel-bar']}></div>
                 <Search
                     onChange={handleSelectedLocation}
                     onClick={getBrowserLocation}
@@ -152,6 +155,34 @@ const MapComponent = () => {
                         src='/icons/arrow-icon.png'
                         width={20}
                         height={20}
+                    />
+                </div>
+                <div className={styles['navbar']}>
+                    <Image
+                        alt='Search location icon'
+                        src='/icons/home.png'
+                        width={NAVBAR_ICON_W}
+                        height={NAVBAR_ICON_H}
+                    />
+                    <Image
+                        alt='Search location icon'
+                        src='/icons/socials.png'
+                        width={NAVBAR_ICON_W}
+                        height={NAVBAR_ICON_H}
+                    />{' '}
+                    <div className={styles['navbar-selected']}>
+                        <Image
+                            alt='Search location icon'
+                            src='/icons/roads.png'
+                            width={NAVBAR_ICON_W}
+                            height={NAVBAR_ICON_H}
+                        />{' '}
+                    </div>
+                    <Image
+                        alt='Search location icon'
+                        src='/icons/stats.png'
+                        width={NAVBAR_ICON_W}
+                        height={NAVBAR_ICON_H}
                     />
                 </div>
             </div>
