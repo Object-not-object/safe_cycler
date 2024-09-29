@@ -1,5 +1,7 @@
 import json
 from math import sqrt
+from heuri import heuri
+from gpx import createGpx
 
 
 class Node():
@@ -77,10 +79,18 @@ def main():
 
     for way in ways:
         for node in way['nodes']:
-            nodes[node['id']] = (node['lon'], node['lat'])
+            nodes[node['id']] = (node['lat'], node['lon'])
         for node1, node2 in zip(way['nodes'][:-1], way['nodes'][1:]):
             distBetweenNodes = sqrt(
                 (node2['lat']-node1['lat'])**2 + (node2['lon'] - node1['lon'])**2)
+            weight = heuri(
+                way["tags"]["maxspeed"],
+                way["tags"]["bicycle"],
+                way["tags"]["surface"],
+                way["tags"]["lanes"]
+            )
+            
+            distBetweenNodes *= weight
 
             if node1['id'] in graph.keys():
                 graph[node1['id']].append((node2['id'], distBetweenNodes))
@@ -96,6 +106,7 @@ def main():
                  nodes[12026767495], 30372083, nodes[30372083], nodes)
     pathCoords = [nodes[node] for node in path]
     print(pathCoords)
+    createGpx(pathCoords)
     with open('path_coords.json', 'w') as f:
         json.dump(pathCoords, f)
 
